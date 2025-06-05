@@ -34,12 +34,13 @@ jobs:
         cmake -B build -DCMAKE_BUILD_TYPE=Release ^
               -DCMAKE_GENERATOR="Visual Studio 17 2022" ^
               -DCMAKE_GENERATOR_PLATFORM=x64 ^
-              -DCMAKE_SYSTEM_VERSION=10.0
+              -DCMAKE_SYSTEM_VERSION=10.0 ^
+              -DCMAKE_BUILD_TYPE=Release
     
-    - name: Build
+    - name: Build with MSBuild
       shell: cmd
       run: |
-        cmake --build build --config Release --verbose
+        msbuild build\EQDiff.sln /p:Configuration=Release /p:Platform=x64 /v:detailed
     
     - name: List Build Artifacts
       shell: cmd
