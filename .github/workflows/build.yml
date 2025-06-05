@@ -15,6 +15,13 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: recursive
+        fetch-depth: 0
+    
+    - name: Install Visual Studio
+      uses: ilammy/msvc-cpp@v1
+      with:
+        version: '2022'
+        components: 'MSVC v143 - VS 2022 C++ x64/x86 build tools'
     
     - name: Install CMake
       uses: jwlawson/actions-setup-cmake@v1.13
@@ -25,13 +32,23 @@ jobs:
       run: mkdir build
     
     - name: Configure CMake
+      shell: cmd
       run: |
         cmake -B build -DCMAKE_BUILD_TYPE=Release ^
               -DCMAKE_GENERATOR="Visual Studio 17 2022" ^
-              -DCMAKE_GENERATOR_PLATFORM=x64
+              -DCMAKE_GENERATOR_PLATFORM=x64 ^
+              -DCMAKE_SYSTEM_VERSION=10.0
     
     - name: Build
-      run: cmake --build build --config Release
+      shell: cmd
+      run: |
+        cmake --build build --config Release --verbose
+    
+    - name: List Build Artifacts
+      shell: cmd
+      run: |
+        dir build\EQDiff_artefacts\Release\VST3
+        dir build\EQDiff_artefacts\Release\Standalone
     
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
