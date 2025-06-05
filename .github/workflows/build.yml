@@ -17,11 +17,8 @@ jobs:
         submodules: recursive
         fetch-depth: 0
     
-    - name: Install Visual Studio
-      uses: ilammy/msvc-cpp@v1
-      with:
-        version: '2022'
-        components: 'MSVC v143 - VS 2022 C++ x64/x86 build tools'
+    - name: Setup MSVC
+      uses: microsoft/setup-msbuild@v1
     
     - name: Install CMake
       uses: jwlawson/actions-setup-cmake@v1.13
