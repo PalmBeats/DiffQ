@@ -3,6 +3,10 @@ project(EQDiff VERSION 1.0.0)
 
 add_subdirectory(JUCE)
 
+# Set VST SDK path - you'll need to download and extract the VST SDK
+set(VST_SDK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/VST_SDK" CACHE PATH "Path to VST SDK")
+juce_set_vst2_sdk_path(${VST_SDK_PATH})
+
 juce_add_plugin(EQDiff
     VERSION 1.0.0
     COMPANY_NAME "YourCompany"
@@ -14,7 +18,7 @@ juce_add_plugin(EQDiff
     COPY_PLUGIN_AFTER_BUILD TRUE
     PLUGIN_MANUFACTURER_CODE Ycom
     PLUGIN_CODE EqDf
-    FORMATS VST3 VST Standalone
+    FORMATS VST3 Standalone
     PRODUCT_NAME "EQDiff")
 
 # Set Windows-specific settings
