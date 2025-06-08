@@ -32,11 +32,11 @@ jobs:
     - name: Configure CMake
       shell: pwsh
       run: |
-        cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DJUCE_BUILD_EXTRAS=ON
+        cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DJUCE_BUILD_EXTRAS=OFF
         
     - name: Build
       shell: pwsh
-      run: cmake --build build --config Release
+      run: cmake --build build --config Release --target EQDiff_VST3
       
     - name: List build directory contents
       shell: pwsh
