@@ -48,5 +48,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: EQDiff-VST3
-        path: build/EQDiff_artefacts/VST3/EQDiff.vst3
+        path: build/lib/VST3/EQDiff.vst3/Contents/x86_64-win/EQDiff.vst3
         if-no-files-found: error 
