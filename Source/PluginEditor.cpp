@@ -2,6 +2,10 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 EQDiffAudioProcessorEditor::EQDiffAudioProcessorEditor(EQDiffAudioProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p)
 {
@@ -149,8 +153,8 @@ void EQDiffAudioProcessorEditor::FrequencyResponseDisplay::timerCallback()
     const int numPoints = 100;
     for (int i = 0; i < numPoints; ++i)
     {
-        float freq = 20.0f * std::pow(20000.0f / 20.0f, i / (float)(numPoints - 1));
-        float x = std::log10(freq / 20.0f) / std::log10(20000.0f / 20.0f) * getWidth();
+        float freq = 20.0f * std::pow(20000.0f / 20.0f, static_cast<float>(i) / (numPoints - 1));
+        float x = std::log10(freq / 20.0f) / std::log10(20000.0f / 20.0f) * static_cast<float>(getWidth());
         
         // Calculate magnitude response based on EQ settings
         float magnitude = 0.0f;
@@ -161,8 +165,8 @@ void EQDiffAudioProcessorEditor::FrequencyResponseDisplay::timerCallback()
             float q = 1.0f;
             
             // Simple peak filter response calculation
-            float w = 2.0f * M_PI * freq / processor.getSampleRate();
-            float w0 = 2.0f * M_PI * bandFreq / processor.getSampleRate();
+            float w = 2.0f * M_PI * freq / static_cast<float>(processor.getSampleRate());
+            float w0 = 2.0f * M_PI * bandFreq / static_cast<float>(processor.getSampleRate());
             float alpha = std::sin(w0) / (2.0f * q);
             
             float a0 = 1.0f + alpha;
@@ -178,7 +182,7 @@ void EQDiffAudioProcessorEditor::FrequencyResponseDisplay::timerCallback()
             magnitude += 20.0f * std::log10(h);
         }
         
-        float y = (1.0f - (magnitude + 24.0f) / 48.0f) * getHeight();
+        float y = (1.0f - (magnitude + 24.0f) / 48.0f) * static_cast<float>(getHeight());
         
         if (i == 0)
             frequencyResponsePath.startNewSubPath(x, y);
