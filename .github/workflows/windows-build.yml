@@ -32,14 +32,21 @@ jobs:
     - name: Configure CMake
       shell: pwsh
       run: |
-        cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release
-      
+        cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DJUCE_BUILD_EXTRAS=ON
+        
     - name: Build
       shell: pwsh
       run: cmake --build build --config Release
       
+    - name: List build directory contents
+      shell: pwsh
+      run: |
+        Write-Host "Listing build directory contents:"
+        Get-ChildItem -Path "build" -Recurse | Where-Object { $_.Name -like "*.vst3" }
+        
     - name: Upload VST3
       uses: actions/upload-artifact@v4
       with:
         name: EQDiff-VST3
-        path: build/EQDiff_artefacts/VST3/EQDiff.vst3 
+        path: build/EQDiff_artefacts/VST3/EQDiff.vst3
+        if-no-files-found: error 
